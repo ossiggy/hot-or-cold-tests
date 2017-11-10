@@ -4,9 +4,11 @@ import {shallow, mount} from 'enzyme';
 import Game from './game';
 
 describe('<Game />', () =>{
+
   it('Renders without crashing', () => {
     shallow(<Game />);
   });
+
   it('Checks if guess is NaN', () => {
     const wrongGuess = 'AAA';
     const wrapper = shallow(<Game />);
@@ -14,6 +16,7 @@ describe('<Game />', () =>{
     instance.guess(wrongGuess);
     expect(wrapper.state('feedback')).toEqual('Please enter a valid number');
   });
+
   it('Produces correct feedback for each guess', () => {
     const guess = '55';
     const wrapper = shallow(<Game />);
@@ -37,4 +40,12 @@ describe('<Game />', () =>{
       expect(wrapper.state('feedback')).toEqual('You got it!');
     }
   });
+  
+   it('Starts a new game when requested', () => {
+     const wrapper = shallow(<Game />);
+     const instance = wrapper.instance();
+     instance.newGame();
+     expect(wrapper.state('guesses')).toEqual([]);
+     expect(wrapper.state('feedback')).toEqual('Make your guess!');
+   });
 });
